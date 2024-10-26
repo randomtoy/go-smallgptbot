@@ -40,6 +40,7 @@ func (t *Telegram) defaultAnswer(update tgbotapi.Update) error {
 	oa.User = update.Message.Text
 
 	resp, err := oa.Send()
+	log.Printf("response: %+v", resp)
 	if err != nil {
 		return err
 	}

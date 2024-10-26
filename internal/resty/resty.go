@@ -2,6 +2,7 @@ package resty
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/go-resty/resty/v2"
 )
@@ -37,6 +38,7 @@ func (r *Resty) SendRequest() (string, error) {
 	if err != nil {
 		return "", err
 	}
+	log.Printf("Resty responce: %+v", resp)
 	if resp.StatusCode() != 200 {
 		err = fmt.Errorf("error: %s", resp.String())
 		return "", err
