@@ -2,9 +2,11 @@ package telegram
 
 import (
 	"log"
+	"os"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/labstack/echo/v4"
+	"github.com/randomtoy/go-smallgptbot/internal/openai"
 )
 
 func (t *Telegram) MainHandler(c echo.Context) error {
@@ -32,7 +34,16 @@ func (t *Telegram) MainHandler(c echo.Context) error {
 }
 
 func (t *Telegram) defaultAnswer(update tgbotapi.Update) error {
-	msg := tgbotapi.NewMessage(update.Message.From.ID, "rrrra!")
+	oa := openai.New(os.Getenv("OPENAI_APITOKEN"))
+	oa.Model = "gpt-3.5-turbo"
+	oa.System = "professional teacher who knows TOEFL preparation perfectly"
+	oa.User = update.Message.Text
+
+	resp, err := oa.Send()
+	if err != nil {
+		return err
+	}
+	msg := tgbotapi.NewMessage(update.Message.From.ID, resp)
 
 	msg.ReplyToMessageID = update.Message.MessageID
 	t.Bot.Send(msg)
