@@ -19,7 +19,7 @@ func New(token string) *OpenAi {
 	}
 }
 
-func (o *OpenAi) Send() (string, error) {
+func (o *OpenAi) Send() (*resty.Response, error) {
 	rest := resty.New(o.Token)
 	requestBody := map[string]interface{}{
 		"model": o.Model, // Или "gpt-3.5-turbo"
@@ -32,7 +32,7 @@ func (o *OpenAi) Send() (string, error) {
 	log.Printf("sending request: %+v", rest)
 	answer, err := rest.SendRequest()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	log.Printf("getting answer: %+v", answer)
