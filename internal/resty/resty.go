@@ -20,7 +20,8 @@ type Resty struct {
 
 type Response struct {
 	Id      string `json:"id"`
-	Choises struct {
+	Choises []struct {
+		Id      int `json:"index"`
 		Message struct {
 			Role    string `json:"role"`
 			Content string `json:"content"`
@@ -64,5 +65,5 @@ func (r *Resty) SendRequest() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return r.Response.Choises.Message.Content, nil
+	return r.Response.Choises[0].Message.Content, nil
 }
