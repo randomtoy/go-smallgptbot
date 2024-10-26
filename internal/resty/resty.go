@@ -20,13 +20,13 @@ type Resty struct {
 
 type Response struct {
 	Id      string `json:"id"`
-	Choises []struct {
+	Choices []struct {
 		Id      int `json:"index"`
 		Message struct {
 			Role    string `json:"role"`
 			Content string `json:"content"`
 		} `json:"message"`
-	} `json:"choises"`
+	} `json:"choices"`
 	Usage struct {
 		PromptTokens     int `json:"prompt_tokens"`
 		CompletionTokens int `json:"completion_tokens"`

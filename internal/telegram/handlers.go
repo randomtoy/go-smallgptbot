@@ -45,8 +45,8 @@ func (t *Telegram) defaultAnswer(update tgbotapi.Update) error {
 		return err
 	}
 
-	for i := range resp.Choises {
-		msg := tgbotapi.NewMessage(update.Message.From.ID, resp.Choises[i].Message.Content)
+	for i := range resp.Choices {
+		msg := tgbotapi.NewMessage(update.Message.From.ID, resp.Choices[i].Message.Content)
 		msg.ReplyToMessageID = update.Message.MessageID
 		t.Bot.Send(msg)
 	}
