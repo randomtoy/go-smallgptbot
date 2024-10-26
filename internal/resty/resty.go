@@ -12,7 +12,7 @@ var url string = "https://api.openai.com/v1/chat/completions"
 type Resty struct {
 	client      *resty.Client
 	Url         string
-	RequestBody map[string]string `json:"requestbody"`
+	RequestBody map[string]interface{}
 	Headers     map[string]string
 }
 
