@@ -1,6 +1,10 @@
 package openai
 
-import "github.com/randomtoy/go-smallgptbot/internal/resty"
+import (
+	"log"
+
+	"github.com/randomtoy/go-smallgptbot/internal/resty"
+)
 
 type OpenAi struct {
 	Token  string
@@ -21,10 +25,12 @@ func (o *OpenAi) Send() (string, error) {
 		"model":    o.Model,
 		"messages": "{\"role\": \"system\",\"content\":\"" + o.System + "\"},{\"role\":\"user\",\"content\": \"" + o.User + "\"}",
 	}
-
+	log.Printf("sending request: %+v", rest)
 	answer, err := rest.SendRequest()
+
 	if err != nil {
 		return "", err
 	}
+	log.Printf("getting answer: %+v", answer)
 	return answer, nil
 }
