@@ -1,6 +1,7 @@
 package resty
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -14,6 +15,22 @@ type Resty struct {
 	Url         string
 	RequestBody map[string]interface{}
 	Headers     map[string]string
+	Response    Response
+}
+
+type Response struct {
+	Id      string `json:"id"`
+	Choises struct {
+		Message struct {
+			Role    string `json:"role"`
+			Content string `json:"content"`
+		} `json:"message"`
+	} `json:"choises"`
+	Usage struct {
+		PromptTokens     int `json:"prompt_tokens"`
+		CompletionTokens int `json:"completion_tokens"`
+		TotalTokens      int `json:"total_tokens"`
+	} `json:"usage"`
 }
 
 func New(token string) *Resty {
@@ -43,6 +60,9 @@ func (r *Resty) SendRequest() (string, error) {
 		err = fmt.Errorf("error: %s", resp.String())
 		return "", err
 	}
-
-	return resp.String(), nil
+	err = json.Unmarshal(resp.Body(), &r.Response)
+	if err != nil {
+		return "", err
+	}
+	return r.Response.Choises.Message.Content, nil
 }
