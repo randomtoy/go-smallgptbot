@@ -25,7 +25,7 @@ func (o *OpenAi) Send() (string, error) {
 		"model": o.Model, // Или "gpt-3.5-turbo"
 		"messages": []map[string]string{
 			{"role": "system", "content": o.System},
-			{"role": "user", "content": o.Token},
+			{"role": "user", "content": o.User},
 		},
 	}
 	rest.RequestBody = requestBody
