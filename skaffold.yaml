@@ -1,0 +1,11 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+build:
+  local:
+    push: false
+  artifacts:
+  - image: gptsmallbot
+    context: gptsmallbot
+deploy:
+  docker:
+    images: [gptsmallbot]
