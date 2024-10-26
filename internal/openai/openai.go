@@ -31,10 +31,10 @@ func (o *OpenAi) Send() (string, error) {
 	rest.RequestBody = requestBody
 	log.Printf("sending request: %+v", rest)
 	answer, err := rest.SendRequest()
-
 	if err != nil {
 		return "", err
 	}
+
 	log.Printf("getting answer: %+v", answer)
 	return answer, nil
 }
