@@ -48,22 +48,22 @@ func New(token string) *Resty {
 	}
 }
 
-func (r *Resty) SendRequest() (string, error) {
+func (r *Resty) SendRequest() (*Response, error) {
 	client := r.client.R()
 	client.SetHeaders(r.Headers)
 	client.SetBody(r.RequestBody)
 	resp, err := client.Post(r.Url)
 	if err != nil {
-		return "", err
+		return &Response{}, err
 	}
 	log.Printf("Resty responce: %+v", resp)
 	if resp.StatusCode() != 200 {
 		err = fmt.Errorf("error: %s", resp.String())
-		return "", err
+		return &Response{}, err
 	}
 	err = json.Unmarshal(resp.Body(), &r.Response)
 	if err != nil {
-		return "", err
+		return &Response{}, err
 	}
-	return r.Response.Choises[0].Message.Content, nil
+	return &r.Response, nil
 }
