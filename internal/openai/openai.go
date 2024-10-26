@@ -21,10 +21,14 @@ func New(token string) *OpenAi {
 
 func (o *OpenAi) Send() (string, error) {
 	rest := resty.New(o.Token)
-	rest.RequestBody = map[string]string{
-		"model":    o.Model,
-		"messages": "{\"role\": \"system\",\"content\":\"" + o.System + "\"},{\"role\":\"user\",\"content\": \"" + o.User + "\"}",
+	requestBody := map[string]interface{}{
+		"model": o.Model, // Или "gpt-3.5-turbo"
+		"messages": []map[string]string{
+			{"role": "system", "content": o.System},
+			{"role": "user", "content": o.Token},
+		},
 	}
+	rest.RequestBody = requestBody
 	log.Printf("sending request: %+v", rest)
 	answer, err := rest.SendRequest()
 
